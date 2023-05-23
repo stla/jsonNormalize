@@ -38,12 +38,12 @@ cat(goodJstring)
         "cluster": true
       },
       [
-        "",
+        null,
         "",
         ""
       ],
       {
-        "null": "",
+        "null": null,
         "undefined": "",
         "NaN": ""
       }

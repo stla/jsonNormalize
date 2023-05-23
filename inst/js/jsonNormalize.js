@@ -9,12 +9,14 @@ const LINE_COMMENTS = /[\"\']*(?:[\s\w]]*)(\/\/[^\n^\"^\}]*)/g;
 // Attempt to handle /* */ and /** javadoc style * line * line2 comments */
 const MULTILINE_COMMENTS = /[\"\']*(?:\s*)(\/\*+)([^\*]*[\*])([^\/]*[\/])/g;
 const SINGLE_QUOTES = /([^\\][\'](?:[^\']*)[\'](?:[^\}^\:^\,]*))/g;
+// 23 May 2023 - Stéphane Laurent
+// added \[ to handle first element of array
 const UNQUOTED_WORDS = /(?:(\,|\:|\{|\[)\s*)([\w]+)/g;
 
 function addQuotes(e) {
 
-  // return booleans unchanged
-  if (/false|true/.test(e)) {
+  // return booleans and null unchanged
+  if (/false|true|null/.test(e)) {
     return e;
   }
 
@@ -30,8 +32,8 @@ function addQuotes(e) {
     return e;
   }
 
-  // replaces null, undefined, and NaN with empty string
-  if (/null|undefined|NaN/.test(e)) {
+  // replaces undefined, and NaN with empty string
+  if (/undefined|NaN/.test(e)) {
     e = '';
   }
 
