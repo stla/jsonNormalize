@@ -15,7 +15,7 @@ badJstring <- "
     ind: [5, 4.1,   3.7 , 1e3],
     'cluster'    : true
   },
-  [null ,undefined,   NaN],
+  [ null, undefined,   NaN],
   {
     'null': null,
     'undefined': undefined,
@@ -38,7 +38,7 @@ cat(goodJstring)
         "cluster": true
       },
       [
-        null,
+        "",
         "",
         ""
       ],

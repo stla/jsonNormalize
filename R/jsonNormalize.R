@@ -23,6 +23,9 @@ jsonNormalize <- function(jstring, prettify = FALSE) {
     )
     ctx$get("pretty")
   } else {
-    ctx$get("normalizedJstring")
+    ctx$eval(
+      "var mini = JSON.stringify(JSON.parse(normalizedJstring));"
+    )
+    ctx$get("mini")
   }
 }

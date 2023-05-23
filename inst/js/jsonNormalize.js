@@ -9,7 +9,7 @@ const LINE_COMMENTS = /[\"\']*(?:[\s\w]]*)(\/\/[^\n^\"^\}]*)/g;
 // Attempt to handle /* */ and /** javadoc style * line * line2 comments */
 const MULTILINE_COMMENTS = /[\"\']*(?:\s*)(\/\*+)([^\*]*[\*])([^\/]*[\/])/g;
 const SINGLE_QUOTES = /([^\\][\'](?:[^\']*)[\'](?:[^\}^\:^\,]*))/g;
-const UNQUOTED_WORDS = /(?:(\,|\:|\{)\s*)([\w]+)/g;
+const UNQUOTED_WORDS = /(?:(\,|\:|\{|\[)\s*)([\w]+)/g;
 
 function addQuotes(e) {
 
