@@ -101,8 +101,15 @@ function normalize(jsonText) {
 
     // 28 December 2019 - fix [01] and { 01: 01 }
     // e.g., replace 01 with "01"
-    .replace(/(?=[^\"^\']+)[0]+([1-9)+(?=[^\"^\']+)/g, function (e) {
+    .replace(/(?=[^\'|\"]+)[0-9]+([0-9)+(?=[^\"^\']+)+(?=:)/g, function (e) {
       return '"' + e + '"';
+      //return /(\d+(?=:))/.test(e) ? '"' + e + '"' : e;
+    })
+
+    .replace(/([\"\']{2,})[0-9]+([\"\']{2,})+/g, function (e) {
+      var ee = e.replace(/\"/g, "").replace(/'/g, "");
+      return '"' + ee + '"';
+      //return /\d+(?=,)/.test(ee) ? ee : '"' + ee + '"';
     })
 
     // trim it
