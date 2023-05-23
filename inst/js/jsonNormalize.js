@@ -18,6 +18,13 @@ function addQuotes(e) {
     return e;
   }
 
+  // 23 May 2023 - Stéphane Laurent
+  // handle numbers in scientific notation
+  // https://stackoverflow.com/a/51790561/1100107
+  if (/^[+\-]?(?=\.\d|\d)(?:0|[1-9]\d*)?(?:\.\d*)?(?:\d[eE][+\-]?\d+)?$/.test(e)) {
+    return e;
+  }
+
   // return numbers unchanged
   if (/^\d?\.?\d+$/.test(e)) {
     return e;

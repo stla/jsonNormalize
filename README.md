@@ -33,7 +33,7 @@ cat(goodJstring)
           5,
           4.1,
           3.7,
-          "1e3"
+          1000
         ],
         "cluster": true
       },
