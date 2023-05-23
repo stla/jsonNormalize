@@ -4,10 +4,12 @@
 \alias{jsonNormalize}
 \title{Normalize a JSON string}
 \usage{
-jsonNormalize(jstring)
+jsonNormalize(jstring, prettify = FALSE)
 }
 \arguments{
 \item{jstring}{a character string, the JSON string to be normalized}
+
+\item{prettify}{Boolean, whether to prettify the normalized JSON string}
 }
 \value{
 The normalized JSON string.
@@ -19,5 +21,5 @@ Attempts to normalize or fix a JSON string.
 library(jsonNormalize)
 # the keys of the following JSON string are not quoted
 jstring <- "[{area:30,ind:[5,4.1,3.7],cluster:true},{ind:[],cluster:false}]"
-jsonNormalize(jstring)
+cat(jsonNormalize(jstring, prettify = TRUE))
 }
