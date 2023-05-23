@@ -101,11 +101,16 @@ function normalize(jsonText) {
 
     // 28 December 2019 - fix [01] and { 01: 01 }
     // e.g., replace 01 with "01"
+    //
+    // 23 May 2023 - Stéphane Laurent
+    // also replace numeric key by string
     .replace(/(?=[^\'|\"]+)[0-9]+([0-9)+(?=[^\"^\']+)+(?=:)/g, function (e) {
       return '"' + e + '"';
       //return /(\d+(?=:))/.test(e) ? '"' + e + '"' : e;
     })
 
+    // 23 May 2023 - Stéphane Laurent
+    // get rid of successive quotes
     .replace(/([\"\']{2,})[0-9]+([\"\']{2,})+/g, function (e) {
       var ee = e.replace(/\"/g, "").replace(/'/g, "");
       return '"' + ee + '"';
