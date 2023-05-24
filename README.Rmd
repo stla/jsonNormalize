@@ -11,6 +11,13 @@ Normalize JSON strings.
 
 ___
 
+```{r jsonHook, include=FALSE}
+knitr::knit_hooks$set(output = function(x, options) {
+  paste0(c("```json", x, "```"), collapse = "\n")
+})
+```
+
+
 ```{r, comment=""}
 library(jsonNormalize)
 
