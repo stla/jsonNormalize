@@ -1,5 +1,6 @@
 #' @title Normalize a JSON string
-#' @description Attempts to normalize or fix a JSON string.
+#' @description Attempts to normalize or fix a JSON string. Trailing commas
+#'  are removed, and all keys of the normalized JSON string are double-quoted.
 #'
 #' @param jstring a character string, the JSON string to be normalized, or
 #'   the path to a JSON file
@@ -14,7 +15,7 @@
 #' @examples
 #' library(jsonNormalize)
 #' # the keys of the following JSON string are not quoted
-#' jstring <- "[{area:30,ind:[5,4.1,3.7],cluster:true},{ind:[],cluster:false}]"
+#' jstring <- "[{area:30,ind:[5,3.7], cluster:true,},{ind:[],cluster:false},]"
 #' cat(jsonNormalize(jstring, prettify = TRUE))
 jsonNormalize <- function(jstring, prettify = FALSE, to = NULL) {
   isString <- is.character(jstring) && length(jstring) == 1L && !is.na(jstring)
@@ -40,6 +41,7 @@ jsonNormalize <- function(jstring, prettify = FALSE, to = NULL) {
   ctx <- v8()
   ctx$source(system.file("js", "jsonNormalize.js", package = "jsonNormalize"))
   ctx$assign("x", jstring)
+  # normalize
   normalize <- paste0(
     c(
       "var normalized = null, error = null;",
@@ -57,30 +59,50 @@ jsonNormalize <- function(jstring, prettify = FALSE, to = NULL) {
   if(!is.null(err <- result[["error"]])) {
     stop("Error while normalizing: ", err)
   }
-  jparse <- paste0(
+  # remove trailing commas
+  removeTrailingCommas <- paste0(
     c(
-      "var parsed = null;",
+      "var nocomma = null;",
       "try {",
-      "  parsed = JSON.parse(result.normalized);",
+      "  eval(`nocomma = ${result.normalized};`);",
       "} catch(err) {",
       "  error = err.message;",
       "}",
-      "result = {parsed: parsed, error: error};"
+      "result = {nocomma: nocomma, error: error};"
     ),
     collapse = "\n"
   )
-  ctx$eval(jparse)
+  ctx$eval(removeTrailingCommas)
   result <- ctx$get("result")
   if(!is.null(err <- result[["error"]])) {
-    stop("Error while parsing to JSON: ", err)
+    stop("Error while trying to remove trailing commas: ", err)
   }
+  # # JSON parse
+  # jparse <- paste0(
+  #   c(
+  #     "var parsed = null;",
+  #     "try {",
+  #     "  parsed = JSON.parse(result.nocomma);",
+  #     "} catch(err) {",
+  #     "  error = err.message;",
+  #     "}",
+  #     "result = {parsed: parsed, error: error};"
+  #   ),
+  #   collapse = "\n"
+  # )
+  # ctx$eval(jparse)
+  # result <- ctx$get("result")
+  # if(!is.null(err <- result[["error"]])) {
+  #   stop("Error while parsing to JSON: ", err)
+  # }
+  # stringify
   if(prettify) {
     ctx$eval(
-      "var output = JSON.stringify(result.parsed, null, 2);"
+      "var output = JSON.stringify(result.nocomma, null, 2);"
     )
   } else {
     ctx$eval(
-      "var output = JSON.stringify(result.parsed);"
+      "var output = JSON.stringify(result.nocomma);"
     )
   }
   output <- ctx$get("output")
