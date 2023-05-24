@@ -1,7 +1,8 @@
 #' @title Normalize a JSON string
 #' @description Attempts to normalize or fix a JSON string.
 #'
-#' @param jstring a character string, the JSON string to be normalized
+#' @param jstring a character string, the JSON string to be normalized, or
+#'   a JSON file
 #' @param prettify Boolean, whether to prettify the normalized JSON string
 #'
 #' @return The normalized JSON string.
@@ -13,6 +14,17 @@
 #' jstring <- "[{area:30,ind:[5,4.1,3.7],cluster:true},{ind:[],cluster:false}]"
 #' cat(jsonNormalize(jstring, prettify = TRUE))
 jsonNormalize <- function(jstring, prettify = FALSE) {
+  isString <- is.character(jstring) && length(jstring) == 1L && !is.na(jstring)
+  if(!isString) {
+    stop("`jstring` is not a character string.")
+  }
+  if(grepl("\\.json", tolower(jstring))) {
+    if(file.exists(jstring)) {
+      jstring <- paste0(readLines(jstring), collapse = "\n")
+    } else {
+      stop(sprintf("File '%s' not found.", jstring))
+    }
+  }
   ctx <- v8()
   ctx$source(system.file("js", "jsonNormalize.js", package = "jsonNormalize"))
   ctx$assign("x", jstring)

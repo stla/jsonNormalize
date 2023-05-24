@@ -1,5 +1,5 @@
 Package: jsonNormalize
-Title: Normalize 'JSON' strings
+Title: Normalization of 'JSON' Strings
 Version: 0.0.0.9000
 Authors@R: c(
     person("Stéphane", "Laurent", , "laurent_step@outlook.fr", role = c("aut", "cre")),
@@ -7,7 +7,7 @@ Authors@R: c(
            comment = "author of the JavaScript code")
   )
 Description: Provides only one function, allowing to normalize or to fix a
-    'JSON' string, for example by adding double quotes around the keys if
+    'JSON' string, for example by adding double quotes around the keys when
     they are missing.
 License: GPL-3
 URL: https://github.com/stla/
