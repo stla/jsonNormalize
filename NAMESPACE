@@ -2,3 +2,6 @@
 
 export(jsonNormalize)
 import(V8)
+importFrom(rstudioapi,getSourceEditorContext)
+importFrom(rstudioapi,modifyRange)
+importFrom(rstudioapi,setDocumentContents)
