@@ -1,0 +1,19 @@
+Name: Normalize active JSON file
+Description: Normalize the active JSON file without prettifying it.
+Binding: NormalizeActiveFile
+Interactive: false
+
+Name: Normalize and prettify active JSON file
+Description: Normalize and prettify the active JSON file.
+Binding: NormalizeAndPrettifyActiveFile
+Interactive: false
+
+Name: Normalize active selection
+Description: Normalize the active selection without prettifying it.
+Binding: NormalizeActiveSelection
+Interactive: false
+
+Name: Normalize and prettify active selection
+Description: Normalize and prettify the active selection.
+Binding: NormalizeAndPrettifyActiveSelection
+Interactive: false
