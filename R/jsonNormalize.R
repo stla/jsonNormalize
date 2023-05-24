@@ -16,15 +16,48 @@ jsonNormalize <- function(jstring, prettify = FALSE) {
   ctx <- v8()
   ctx$source(system.file("js", "jsonNormalize.js", package = "jsonNormalize"))
   ctx$assign("x", jstring)
-  ctx$eval("var normalizedJstring = normalize(x);")
+  normalize <- paste0(
+    c(
+      "var normalized = null, error = null;",
+      "try {",
+      "  normalized = normalize(x);",
+      "} catch(err) {",
+      "  error = err.message;",
+      "}",
+      "var result = {normalized: normalized, error: error};"
+    ),
+    collapse = "\n"
+  )
+  ctx$eval(normalize)
+  result <- ctx$get("result")
+  if(!is.null(err <- result[["error"]])) {
+    stop("Error while normalizing: ", err)
+  }
+  jparse <- paste0(
+    c(
+      "var parsed = null;",
+      "try {",
+      "  parsed = JSON.parse(result.normalized);",
+      "} catch(err) {",
+      "  error = err.message;",
+      "}",
+      "result = {parsed: parsed, error: error};"
+    ),
+    collapse = "\n"
+  )
+  ctx$eval(jparse)
+  result <- ctx$get("result")
+  if(!is.null(err <- result[["error"]])) {
+    stop("Error while parsing to JSON: ", err)
+  }
   if(prettify) {
     ctx$eval(
-      "var pretty = JSON.stringify(JSON.parse(normalizedJstring), null, 2);"
+      "var pretty = JSON.stringify(result.parsed, null, 2);"
     )
     ctx$get("pretty")
   } else {
     ctx$eval(
-      "var mini = JSON.stringify(JSON.parse(normalizedJstring));"
+      "var mini = JSON.stringify(result.parsed);"
     )
     ctx$get("mini")
   }
