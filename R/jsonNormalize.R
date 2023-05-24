@@ -2,7 +2,7 @@
 #' @description Attempts to normalize or fix a JSON string.
 #'
 #' @param jstring a character string, the JSON string to be normalized, or
-#'   a JSON file
+#'   the path to a JSON file
 #' @param prettify Boolean, whether to prettify the normalized JSON string
 #'
 #' @return The normalized JSON string.

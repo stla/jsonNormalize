@@ -7,7 +7,8 @@
 jsonNormalize(jstring, prettify = FALSE)
 }
 \arguments{
-\item{jstring}{a character string, the JSON string to be normalized}
+\item{jstring}{a character string, the JSON string to be normalized, or
+the path to a JSON file}
 
 \item{prettify}{Boolean, whether to prettify the normalized JSON string}
 }
