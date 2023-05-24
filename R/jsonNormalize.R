@@ -10,6 +10,9 @@
 #'   written
 #'
 #' @return The normalized JSON string.
+#' @note The special JavaScript values \code{undefined} and \code{NaN} are not
+#'   allowed in JSON strings. If one of them occurs in the input string, it is
+#'   replaced by the empty string.
 #' @export
 #' @import V8
 #' @examples

@@ -23,6 +23,11 @@ The normalized JSON string.
 Attempts to normalize or fix a JSON string. Trailing commas
  are removed, and all keys of the normalized JSON string are double-quoted.
 }
+\note{
+The special JavaScript values \code{undefined} and \code{NaN} are not
+  allowed in JSON strings. If one of them occurs in the input string, it is
+  replaced by the empty string.
+}
 \examples{
 library(jsonNormalize)
 # the keys of the following JSON string are not quoted
