@@ -4,6 +4,9 @@
 #' @param jstring a character string, the JSON string to be normalized, or
 #'   the path to a JSON file
 #' @param prettify Boolean, whether to prettify the normalized JSON string
+#' @param to \code{NULL} to return the normalized JSON string, otherwise
+#'   the path to a JSON file to which the normalized JSON string will be
+#'   written
 #'
 #' @return The normalized JSON string.
 #' @export
@@ -13,16 +16,25 @@
 #' # the keys of the following JSON string are not quoted
 #' jstring <- "[{area:30,ind:[5,4.1,3.7],cluster:true},{ind:[],cluster:false}]"
 #' cat(jsonNormalize(jstring, prettify = TRUE))
-jsonNormalize <- function(jstring, prettify = FALSE) {
+jsonNormalize <- function(jstring, prettify = FALSE, to = NULL) {
   isString <- is.character(jstring) && length(jstring) == 1L && !is.na(jstring)
   if(!isString) {
     stop("`jstring` is not a character string.")
   }
-  if(grepl("\\.json", tolower(jstring))) {
+  if(grepl("\\.json$", tolower(jstring))) {
     if(file.exists(jstring)) {
       jstring <- paste0(readLines(jstring), collapse = "\n")
     } else {
       stop(sprintf("File '%s' not found.", jstring))
+    }
+  }
+  if(!is.null(to)) {
+    isString <- is.character(to) && length(to) == 1L && !is.na(to)
+    if(!isString || !grepl("\\.json$", tolower(to))) {
+      stop("`to` is not the name of a JSON file.")
+    }
+    if(file.exists(to)) {
+      stop(sprintf("File '%s' exists and will not be overwritten.", to))
     }
   }
   ctx <- v8()
@@ -64,13 +76,17 @@ jsonNormalize <- function(jstring, prettify = FALSE) {
   }
   if(prettify) {
     ctx$eval(
-      "var pretty = JSON.stringify(result.parsed, null, 2);"
+      "var output = JSON.stringify(result.parsed, null, 2);"
     )
-    ctx$get("pretty")
   } else {
     ctx$eval(
-      "var mini = JSON.stringify(result.parsed);"
+      "var output = JSON.stringify(result.parsed);"
     )
-    ctx$get("mini")
+  }
+  output <- ctx$get("output")
+  if(is.null(to)) {
+    output
+  } else {
+    writeLines(output, to)
   }
 }

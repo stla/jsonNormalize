@@ -4,13 +4,17 @@
 \alias{jsonNormalize}
 \title{Normalize a JSON string}
 \usage{
-jsonNormalize(jstring, prettify = FALSE)
+jsonNormalize(jstring, prettify = FALSE, to = NULL)
 }
 \arguments{
 \item{jstring}{a character string, the JSON string to be normalized, or
 the path to a JSON file}
 
 \item{prettify}{Boolean, whether to prettify the normalized JSON string}
+
+\item{to}{\code{NULL} to return the normalized JSON string, otherwise
+the path to a JSON file to which the normalized JSON string will be
+written}
 }
 \value{
 The normalized JSON string.
