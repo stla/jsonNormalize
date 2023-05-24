@@ -10,8 +10,8 @@ Description: Provides a function allowing to normalize a 'JSON' string,
     for example by adding double quotes around the keys when they are
     missing. Also provides 'RStudio' addins for the same purpose.
 License: GPL-3
-URL: https://github.com/stla/
-BugReports: https://github.com/stla//issues
+URL: https://github.com/stla/jsonNormalize
+BugReports: https://github.com/stla/jsonNormalize/issues
 Imports: 
     rstudioapi,
     V8
