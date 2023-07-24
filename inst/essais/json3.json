@@ -1,0 +1,6 @@
+[
+  {name: "Orange", data: {"Tuesday": 3, "Friday": 4}, stack: "fruit"},
+  {name: "Apple", data: {"Tuesday": 1, "Friday": 8}, stack: "fruit"},
+  {name: "Cucumber", data: {"Tuesday": 3, "Friday": 4}, stack: "vegetable"},
+  {name: "Carrot", data: {"Tuesday": 1, "Friday": 8}, stack: "vegetable"}
+]

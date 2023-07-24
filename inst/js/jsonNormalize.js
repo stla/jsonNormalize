@@ -105,8 +105,8 @@ function normalize(jsonText) {
     // 23 May 2023 - Stéphane Laurent
     // also replace numeric key by string
     .replace(/(?=[^\'|\"]+)[0-9]+([0-9)+(?=[^\"^\']+)+(?=:)/g, function (e) {
-      return '"' + e + '"';
-      //return /(\d+(?=:))/.test(e) ? '"' + e + '"' : e;
+      //return '"' + e + '"';
+      return /(\d+(?=:))/.test(e) ? '"' + e + '"' : e;
     })
 
     // 23 May 2023 - Stéphane Laurent
